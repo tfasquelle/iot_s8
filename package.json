@@ -1,0 +1,19 @@
+{
+  "name": "tp4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Test target\"",
+    "sender": "$NODE bin/sender.js",
+    "receiver": "$NODE bin/receiver.js"
+  },
+  "author": "",
+  "license": "GPLv3",
+  "dependencies": {
+    "amqplib": "^0.7.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
