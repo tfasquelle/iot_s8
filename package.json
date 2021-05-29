@@ -6,14 +6,18 @@
   "scripts": {
     "test": "echo \"Test target\"",
     "sender": "$NODE bin/sender.js",
-    "receiver": "$NODE bin/receiver.js"
+    "receiver": "$NODE bin/receiver.js",
+    "client": "$NODE bin/client.js",
+    "server": "$NODE bin/server.js"
   },
   "author": "",
   "license": "GPLv3",
   "dependencies": {
     "amqplib": "^0.7.1",
+    "argparse": "^2.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonschema": "^1.4.0",
     "jsonwebtoken": "^8.5.1"
   }
 }
