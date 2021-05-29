@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
-// import schemaLogin from './schemas.js'
+// import schemas from './schemas.js'
 const schemas = require('./schemas')
 const validate = require('jsonschema').validate
 
@@ -78,6 +78,12 @@ function postdata(data,res, channel, queue) {
                 res.end(JSON.stringify({"error":-1,"message":"JWT error"}));
             } else {
                 // Ok no problem: Adding data
+                if(data.dest == 0){
+                    console.log("received : %s", data.data);
+                } else {
+                    channel.sendToQueue(queue, Buffer.from(JSON.stringify({dest:data.dest, msg:data.data})));
+                }
+                
                 res.writeHead(201, {'Content-Type': 'application/json'});
                 res.end(JSON.stringify({"error":0,"message":"data added"}));
             }

@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Test target\"",
-    "sender": "$NODE bin/sender.js",
-    "receiver": "$NODE bin/receiver.js",
     "client": "$NODE bin/client.js",
-    "server": "$NODE bin/server.js"
+    "server": "$NODE bin/server.js",
+    "router": "$NODE bin/router.js"
   },
   "author": "",
   "license": "GPLv3",

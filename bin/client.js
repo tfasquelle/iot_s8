@@ -13,6 +13,7 @@ parser.add_argument('-v', '--version', { action: 'version', version });
 parser.add_argument('-l', '--login', {help: 'login to use'})
 parser.add_argument('-p', '--password', {help: 'password to use'})
 parser.add_argument('-t', '--to', {help: 'destination : 0, 1 or 2'})
+parser.add_argument('-m', '--message', {help: 'message to send'})
 
 var args = parser.parse_args()
 
@@ -72,13 +73,14 @@ console.dir(process.argv);
 // Setting default value
 let login = args.login || "test";
 let password = args.password || "pass";
-let destCode = parseInt(args.to) || 0
+let destCode = parseInt(args.to) || 0;
+let msg = args.message || "ok";
 
 
 /* Doing POST ... Imbricate them*/
 POST({username: login, password: password},"/login",d => {
     console.dir(d);
-    POST({jwt:d.message, data:'ok', dest: destCode},"/pushdata",d => {
+    POST({jwt:d.message, data:msg, dest: destCode},"/pushdata",d => {
         console.dir(d);
     });
 });

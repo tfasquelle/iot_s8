@@ -27,5 +27,19 @@ const schemaData = {
     "required": ["jwt", "data"]
 };
 
-exports.schemaLogin = schemaLogin
-exports.schemaData = schemaData
+const schemaFromBackend = {
+    "id": "/schemaFromBackend",  
+    "properties": {
+        "msg": {
+            "type": "string"
+        }, 
+        "dest": {
+            "type": "number"
+        }
+    }, 
+    "required": ["dest", "msg"]
+};
+
+exports.schemaLogin = schemaLogin;
+exports.schemaData = schemaData;
+exports.schemaFromBackend = schemaFromBackend;
