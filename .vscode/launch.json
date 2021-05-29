@@ -25,6 +25,17 @@
             "program": "${workspaceFolder}/bin/client.js", 
             "outputCapture": "std"
 
+        }, 
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "router",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/bin/router.js", 
+            "outputCapture": "std"
+
         }
     ]
 }

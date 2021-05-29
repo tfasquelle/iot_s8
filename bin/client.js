@@ -65,11 +65,6 @@ async function pulling(res){
     }
 }
 
-
-console.dir(process.argv);
-
-
-
 // Setting default value
 let login = args.login || "test";
 let password = args.password || "pass";

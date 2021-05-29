@@ -40,27 +40,26 @@ function login(data,res) {
 
     if (isDataValid(data, schemas.schemaLogin)) {
         //find client in auth table
-        auth_table.forEach(element => {
-            if (data.username == element.id && data.password == element.pass) {
-                // client found in table
-                console.log(data);
-                console.log('Username:',data.username,'Passwd:',data.password);
-                element.jwt = jwt.sign({"username":data.username}, ACCESS_TOKEN_SECRET, {
-                    algorithm: "HS512",
-                    expiresIn: ACCESS_TOKEN_LIFE
+        client = auth_table.find(element => element.id == data.username && element.pass == data.password);
+        if (client == undefined) {
+            //client is not in database
+            // Reply to client as error code 401 (no error in HTTP); Reply data format is json
+            res.writeHead(401, {'Content-Type': 'application/json'});
+            // Send back reply content
+            res.end(JSON.stringify({"error":-1,"message":"login error"}));
+        } else {
+            // client found in table
+            console.log(data);
+            console.log('Username:',data.username,'Passwd:',data.password);
+            client.jwt = jwt.sign({"username":data.username}, ACCESS_TOKEN_SECRET, {
+                algorithm: "HS512",
+                expiresIn: ACCESS_TOKEN_LIFE
             });
             // Reply to client as error code 200 (no error in HTTP); Reply data format is json
             res.writeHead(200, {'Content-Type': 'application/json'});
             // Send back reply content
-            res.end(JSON.stringify({"error":0,"message":element.jwt}));
-            }
-            return;
-        });
-        // if the client is not in authentication table
-        // Reply to client as error code 401 (no error in HTTP); Reply data format is json
-        res.writeHead(401, {'Content-Type': 'application/json'});
-        // Send back reply content
-        res.end(JSON.stringify({"error":-1,"message":"login error"}));
+            res.end(JSON.stringify({"error":0,"message":client.jwt}));
+        }
     } else  {
         //if schema not valid
         res.end(JSON.stringify({"error":-1,"message":"content error"}))
@@ -81,7 +80,7 @@ function postdata(data,res, channel, queue) {
                 if(data.dest == 0){
                     console.log("received : %s", data.data);
                 } else {
-                    channel.sendToQueue(queue, Buffer.from(JSON.stringify({dest:data.dest, msg:data.data})));
+                    channel.sendToQueue(queue, Buffer.from(JSON.stringify({dest:data.dest, msg:data.data, from:decoded.username})));
                 }
                 
                 res.writeHead(201, {'Content-Type': 'application/json'});

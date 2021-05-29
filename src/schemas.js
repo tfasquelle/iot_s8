@@ -35,9 +35,12 @@ const schemaFromBackend = {
         }, 
         "dest": {
             "type": "number"
+        }, 
+        "from": {
+            type: "string"
         }
     }, 
-    "required": ["dest", "msg"]
+    "required": ["dest", "msg", "from"]
 };
 
 exports.schemaLogin = schemaLogin;
