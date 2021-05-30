@@ -6,7 +6,6 @@ require('dotenv').config()
 const https = require('http');
 const { ArgumentParser } = require('argparse');
 const { version } = require('../../package.json');
-const { config } = require('dotenv');
  
 const parser = new ArgumentParser({
   description: 'Argparse example'

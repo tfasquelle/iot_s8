@@ -38,7 +38,6 @@ function run()
                 console.log(" [x] Received %s", msg.content.toString());
                 //verify data
                 data = JSON.parse(msg.content.toString());
-                console.log("parse ok");
                 if (validate(data, schemas.schemaFromBackend).valid){
                     //valid data
                     //check if trafic is legal
