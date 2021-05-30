@@ -1,34 +1,25 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const amqp = require('amqplib/callback_api');
+
+require('dotenv').config()
 
 // import schemas from './schemas.js'
-const schemas = require('./schemas')
+const schemas = require('../schemas')
 const validate = require('jsonschema').validate
 
 //authenticationb table that contains for each client its id, password and token
-auth_table = require("./authdb").auth
+auth_table = require("../db/authdb").auth
 
 const app = express();
-const host = 'localhost'; // Utiliser 0.0.0.0 pour être visible depuis l'exterieur de la machine
-const port = 8000;
+app.use(express.json());
+const host = process.env.BACKEND_HOST; // Utiliser 0.0.0.0 pour être visible depuis l'exterieur de la machine
+const port = process.env.BACKEND_PORT;
 
 const ACCESS_TOKEN_SECRET = "123456789";
 const ACCESS_TOKEN_LIFE = 120;
 
-const amqp = require('amqplib/callback_api');
-require('dotenv').config()
-
 const opt = { credentials: require('amqplib').credentials.plain(process.env.AMQP_USER, process.env.AMQP_PASS) };
-
-
-const ordres = [ 
-    {"order": "plouf1\n"}, 
-    {"order": "plouf2\n"}, 
-    {"order": "plouf3\n"}, 
-    {"order": "end"}
-]
-var i = 0;
-
 
 
 function isDataValid(data, schema) {
@@ -93,15 +84,6 @@ function postdata(data,res, channel, queue) {
     }
 }
 
-function pulling(data, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200);
-    res.send(JSON.stringify(ordres[i]))
-
-    i = ((i+1) % (ordres.length))
-}
-
-
 /**
  *
  * Occur when an unkown url was called
@@ -115,7 +97,7 @@ function f404(data,res) {
 
 function set_routes(channel, queue)
 {
-    app.use(express.json());
+    
 
     app.post("/pushdata", (req, res) => {
         var body = req.body;
@@ -127,12 +109,6 @@ function set_routes(channel, queue)
         var body = req.body;
         console.log(body);
         login(body,res);
-    });
-
-    app.post("/orders", (req, res) => {
-        var body = req.body;
-        console.log(body);
-        pulling(body,res);
     });
 
     app.get('/*', (req, res) => {
