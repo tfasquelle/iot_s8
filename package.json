@@ -1,13 +1,13 @@
 {
-  "name": "tp4",
+  "name": "tp5",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Test target\"",
     "client": "$NODE bin/client.js",
     "server": "$NODE bin/server.js",
-    "router": "$NODE bin/router.js"
+    "router": "$NODE bin/router.js",
+    "display": "$NODE bin/display.js"
   },
   "author": "",
   "license": "GPLv3",
