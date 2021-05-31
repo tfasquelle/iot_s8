@@ -12,5 +12,6 @@ parser.add_argument('-t', '--to', {help: 'destination : 0, 1 or 2'})
 
 const args = parser.parse_args()
 
+//run display
 console.log("Starting receiver %s", args.to);
 require("../src/display/display").run(args.to)

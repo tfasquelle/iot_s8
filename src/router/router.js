@@ -11,23 +11,27 @@ const validate = require('jsonschema').validate
 const app = express();
 app.use (express.json());
 
+//get database info : authorisations and queues names
 const queues = require("../db/routingdb").queues
 
 const auth_table = require("../db/authdb").auth
 
 function run()
 {
+    //connect to server
     amqp.connect(process.env.AMQP_HOST, opt, function(error0, connection) {
         if (error0) {
             throw error0;
         }
+        //create channel
         connection.createChannel(function(error1, channel) {
             if (error1) {
                 throw error1;
             }
     
             var queue = 'from_backend';
-    
+            
+            //create queue if it doesn't exists
             channel.assertQueue(queue, {
                 durable: true
             });

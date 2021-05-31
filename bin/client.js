@@ -8,7 +8,8 @@ const { version } = require('../package.json');
 const parser = new ArgumentParser({
   description: 'Argparse example'
 });
- 
+
+//parse arguments
 parser.add_argument('-v', '--version', { action: 'version', version });
 parser.add_argument('-l', '--login', {help: 'login to use'})
 parser.add_argument('-p', '--password', {help: 'password to use'})
@@ -17,11 +18,12 @@ parser.add_argument('-m', '--message', {help: 'message to send'})
 
 var args = parser.parse_args()
 
-// Setting default value
+// Setting values
 let login = args.login || "test";
 let password = args.password || "pass";
 let destCode = parseInt(args.to) || 0;
 let msg = args.message || "ok";
 
+//run client
 console.log("starting client %s", login);
 require("../src/client/client").run(login, password, destCode, msg);

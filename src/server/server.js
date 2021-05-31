@@ -69,16 +69,18 @@ function postdata(data,res, channel, queue) {
             } else {
                 // Ok no problem: Adding data
                 if(data.dest == 0){
+                    // local treatment if destination code = 0
                     console.log("received : %s", data.data);
                 } else {
                     channel.sendToQueue(queue, Buffer.from(JSON.stringify({dest:data.dest, msg:data.data, from:decoded.username})));
                 }
-                
+                //reply OK
                 res.writeHead(201, {'Content-Type': 'application/json'});
                 res.end(JSON.stringify({"error":0,"message":"data added"}));
             }
         });
     } else {
+        //json schema invalid
         res.writeHead(402, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({"error":-1,"message":"content error"}))
     }
