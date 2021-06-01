@@ -9,7 +9,8 @@
     "router": "$NODE bin/router.js",
     "display": "$NODE bin/display.js",
     "redis_publisher": "$NODE bin/redis_publisher.js",
-    "test": "$NODE bin/test.js"
+    "test": "$NODE bin/test.js",
+    "rest": "$NODE bin/rest.js"
   },
   "author": "",
   "license": "GPLv3",
