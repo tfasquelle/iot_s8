@@ -69,12 +69,7 @@ function postdata(data,res, channel, queue) {
                 res.end(JSON.stringify({"error":-1,"message":"JWT error"}));
             } else {
                 // Ok no problem: Adding data
-                if(data.dest == 0){
-                    // local treatment if destination code = 0
-                    console.log("received : %s", data.data);
-                } else {
-                    channel.sendToQueue(queue, Buffer.from(JSON.stringify({dest:data.dest, msg:data.data, from:decoded.username})));
-                }
+                channel.sendToQueue(queue, Buffer.from(JSON.stringify({dest:data.dest, msg:data.data, from:decoded.username})));
                 //reply OK
                 res.writeHead(201, {'Content-Type': 'application/json'});
                 res.end(JSON.stringify({"error":0,"message":"data added"}));
@@ -138,7 +133,6 @@ function run()
             }
         
             var queue = 'from_backend';
-            var msg = 'Hello World!';
         
             channel.assertQueue(queue, {
                 durable: true

@@ -14,7 +14,7 @@ function run(destination)
     }
 
     //get queue name from routing table
-    const queue = require("../db/routingdb").queues[parseInt(destination) - 1];
+    const queue = require("../db/routingdb").queues[parseInt(destination)];
 
     amqp.connect(amqp_connect_opt, function(error0, connection) {
             if (error0) {
@@ -25,7 +25,7 @@ function run(destination)
                 throw error1;
             }
 
-            channel.assertQueue(queue);
+            channel.assertQueue(queue, {durable: true});
 
             console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
 

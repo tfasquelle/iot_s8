@@ -36,6 +36,11 @@ function run()
             channel.assertQueue(queue, {
                 durable: true
             });
+            // Create all output queues
+            queues.forEach(element => {
+                channel.assertQueue(element, {durable: true});
+            });
+            
     
             console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
     
@@ -52,11 +57,10 @@ function run()
                     } else {
                         //client found
                         //check authorization
-                        if (client.authorized_dest.includes(data.dest)) {
+                        if (client.authorized_dest.includes(data.dest) && data.dest <= queues.length) {
                             //authorized
                             //send msg to destination queue
-                            const queue = queues[data.dest - 1];
-                            channel.assertQueue(queue);
+                            const queue = queues[data.dest];
                             channel.sendToQueue(queue, Buffer.from(data.msg));
                             console.log("message '%s' sent to queue '%s'", data.msg, queue);
                         } else {
