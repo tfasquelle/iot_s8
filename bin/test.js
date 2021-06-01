@@ -15,13 +15,7 @@ client.on("error", function(error) {
     console.error(error);
 });
 
-client.on("error", function(error) {
-    console.error(error);
-});
-
-
-client.set("key", "567", redis.print);
-client.get("key", redis.print);
+client.get("angers", redis.print);
 
 
 

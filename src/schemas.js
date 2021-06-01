@@ -18,29 +18,27 @@ const schemaData = {
             "type": "string"
         }, 
         "data": {
-            "type": "string"
         }, 
         "dest": {
             "type": "number"
         }
     }, 
-    "required": ["jwt", "data"]
+    "required": ["jwt", "data", "dest"]
 };
 
 const schemaFromBackend = {
     "id": "/schemaFromBackend",  
     "properties": {
-        "msg": {
-            "type": "string"
+        "data": {
         }, 
         "dest": {
             "type": "number"
         }, 
         "from": {
-            type: "string"
+            "type": "string"
         }
     }, 
-    "required": ["dest", "msg", "from"]
+    "required": ["dest", "data", "from"]
 };
 
 exports.schemaLogin = schemaLogin;

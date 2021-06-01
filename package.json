@@ -7,7 +7,9 @@
     "client": "$NODE bin/client.js",
     "server": "$NODE bin/server.js",
     "router": "$NODE bin/router.js",
-    "display": "$NODE bin/display.js"
+    "display": "$NODE bin/display.js",
+    "redis_publisher": "$NODE bin/redis_publisher.js",
+    "test": "$NODE bin/test.js"
   },
   "author": "",
   "license": "GPLv3",

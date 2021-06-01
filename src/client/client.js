@@ -1,21 +1,6 @@
-#!/usr/bin/env node
-'use strict';
-
 require('dotenv').config()
 
 const https = require('http');
-const { ArgumentParser } = require('argparse');
-const { version } = require('../../package.json');
- 
-const parser = new ArgumentParser({
-  description: 'Argparse example'
-});
- 
-parser.add_argument('-v', '--version', { action: 'version', version });
-parser.add_argument('-l', '--login', {help: 'login to use'})
-parser.add_argument('-p', '--password', {help: 'password to use'})
-parser.add_argument('-t', '--to', {help: 'destination : 0, 1 or 2'})
-parser.add_argument('-m', '--message', {help: 'message to send'})
 
 /**
    Function POST: post the data "jdata" to the url "url".
@@ -53,12 +38,19 @@ function POST(jdata,url,f) {
     req.end();
 }
 
-function run(login, password, destincation_code, message)
+function run(login, password, destination_code, message)
 {
     /* Doing POST ... Imbricate them*/
     POST({username: login, password: password},"/login",d => {
         console.dir(d);
-        POST({jwt:d.message, data:message, dest: destincation_code},"/pushdata",d => {
+        data = {
+            jwt:d.message, 
+            data: {
+                temperature: (new Date()).getSeconds()/2,
+                location: message},
+            dest: destination_code,
+        }
+        POST(data,"/pushdata",d => {
             console.dir(d);
         });
     });
