@@ -19,7 +19,8 @@ const port = process.env.BACKEND_PORT;
 const ACCESS_TOKEN_SECRET = "123456789";
 const ACCESS_TOKEN_LIFE = 120;
 
-const opt = { credentials: require('amqplib').credentials.plain(process.env.AMQP_USER, process.env.AMQP_PASS) };
+//connection arguments for amqp.connect function
+const amqp_connect_opt = {hostname:process.env.AMQP_HOST, username:process.env.AMQP_USER, password:process.env.AMQP_PASS}
 
 
 function isDataValid(data, schema) {
@@ -99,8 +100,6 @@ function f404(data,res) {
 
 function set_routes(channel, queue)
 {
-    
-
     app.post("/pushdata", (req, res) => {
         var body = req.body;
         console.log(body);
@@ -129,7 +128,7 @@ function set_routes(channel, queue)
 
 function run()
 {
-    amqp.connect(process.env.AMQP_HOST, opt, function(error0, connection) {
+    amqp.connect(amqp_connect_opt, function(error0, connection) {
         if (error0) {
             throw error0;
         }
@@ -146,10 +145,6 @@ function run()
             });
             
             set_routes(channel, queue)
-
-            // channel.sendToQueue(queue, Buffer.from(msg));
-        
-            console.log(" [x] Sent %s", msg);
         });
     });
 }
