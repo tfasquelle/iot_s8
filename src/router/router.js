@@ -48,44 +48,25 @@ function run()
                 console.log(" [x] Received %s", d.content.toString());
                 //verify data
                 data = JSON.parse(d.content.toString());
-                // if (validate(data, schemas.schemaFromBackend).valid){
-                //     //valid data
-                //     //check if trafic is legal
-                //     client = auth_table.find(element => element.id == data.from);
-                //     if (client == undefined) {
-                //         console.log("Error : client %s is not in database", data.from);
-                //     } else {
-                //         //client found
-                //         //check authorization
-                //         if (client.authorized_dest.includes(data.dest) && data.dest <= queues.length) {
-                //             //authorized
-                //             //send data to destination queue
-                //             const queue = queues[data.dest];
-                //             channel.sendToQueue(queue, Buffer.from(data.data));
-                //             console.log("message '%s' sent to queue '%s'", data.data.toString, queue);
-                //         } else {
-                //             console.log("illegal action");
-                //         }
-                //     }
-                // } else {
-                //     console.log("indalid data");
-                // }
-
-                client = auth_table.find(element => element.id == data.from);
-                if (client == undefined) {
-                    console.log("Error : client %s is not in database", data.from);
-                } else {
-                    //client found
-                    //check authorization
-                    if (client.authorized_dest.includes(data.dest) && data.dest <= queues.length) {
-                        //authorized
-                        //send data to destination queue
-                        const queue = queues[data.dest];
-                        channel.sendToQueue(queue, Buffer.from(JSON.stringify(data.data)));
-                        console.log("message '%s' sent to queue '%s'", JSON.stringify(data.data), queue);
+                if (validate(data, schemas.schemaFromBackend).valid){
+                    client = auth_table.find(element => element.id == data.from);
+                    if (client == undefined) {
+                        console.log("Error : client %s is not in database", data.from);
                     } else {
-                        console.log("illegal action");
+                        //client found
+                        //check authorization
+                        if (client.authorized_dest.includes(data.dest) && data.dest <= queues.length) {
+                            //authorized
+                            //send data to destination queue
+                            const queue = queues[data.dest];
+                            channel.sendToQueue(queue, Buffer.from(JSON.stringify(data.data)));
+                            console.log("message '%s' sent to queue '%s'", JSON.stringify(data.data), queue);
+                        } else {
+                            console.log("illegal action");
+                        }
                     }
+                } else {
+                    console.log("invalid schema");
                 }
 
             }, {

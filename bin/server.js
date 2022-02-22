@@ -1,4 +1,4 @@
-const main = require("../src/server/server")
+const main = require("../src/backend/server")
 
 console.log("Starting");
 
